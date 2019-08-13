@@ -1,9 +1,10 @@
 import React from 'react';
+import CreateItem from '../components/CreateItem';
 
 const Sell = () => (
   <div>
-    Sell
+    <CreateItem />
   </div>
-)
+);
 
 export default Sell;
