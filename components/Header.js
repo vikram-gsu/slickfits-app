@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import Meta from './Meta';
 import Nav from './Nav';
 
-Router.events.on('routeChangeStart', (url) => {
+Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
-Router.events.on('routeChangeComplete', (url) => {
+Router.events.on('routeChangeComplete', () => {
   NProgress.done();
 });
 
@@ -21,7 +21,7 @@ const Logo = styled.h1`
   transform: skew(-7deg);
   padding-bottom: 1rem;
   a {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 5rem;
     background: ${props => props.theme.red};
     color: white;
     text-transform: uppercase;
@@ -37,7 +37,7 @@ const StyledHeader = styled.header`
   .bar {
     border-bottom: 10px solid ${props => props.theme.black};
     display: grid;
-    grid-template-colums: auto 1fr;
+    grid-template-columns: auto 1fr;
     justify-content: space-between;
     align-items: stretch;
     @media (max-width: 1300px) {
@@ -60,7 +60,6 @@ const Header = () => (
           <a>Slick Fits</a>
         </Link>
       </Logo>
-      <Meta />
       <Nav />
     </div>
     <div className="sub-bar">

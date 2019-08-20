@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
@@ -25,14 +25,18 @@ const ItemsList = styled.div`
   grid-gap: 60px;
   max-width: ${props => props.theme.maxWidth};
   margin: 0 auto;
+  @media (max-width: 1300px) {
+    grid-template-columns: 1fr;
+  }
 `;
 const Items = () => {
   return (
     <Center>
       <Query query={ALL_ITEMS_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <div>Loading...</div>;
+          if (loading) return <div>Fetching Items...</div>;
           if (error) return <div>{error.message}</div>;
+          if (data.items.length === 0) return <div>There are no items listed currently</div>;
           return (
             <ItemsList>
               {data.items.map(item => (
@@ -47,3 +51,4 @@ const Items = () => {
 };
 
 export default Items;
+export {ALL_ITEMS_QUERY};

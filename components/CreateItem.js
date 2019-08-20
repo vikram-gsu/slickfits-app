@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import Router from 'next/router';
+
 import Form from './styles/Form';
+import ErrorMessage from './ErrorMessage';
+import {cloudinaryURL} from '../config';
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -28,16 +32,38 @@ class CreateItem extends Component {
     title: 'Shoes',
     description: 'Addida Shoes',
     price: 10000,
-    image: 'addida.jpg',
-    largeImage: 'large-addida.jpg'
+    image: '',
+    // eslint-disable-next-line react/no-unused-state
+    largeImage: ''
   };
+
   handleChange = e => {
     e.preventDefault();
-    const { type, name, value } = e.target;
-    if (type === 'number') value = parseInt(value);
+    const { type, name } = e.target;
+    let { value } = e.target;
+    if (type === 'number') value = parseFloat(value);
     this.setState(() => ({ [name]: value }));
   };
+
+  uploadFile = async e => {
+    const { files } = e.target;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    formData.append('upload_preset', 'slickfits');
+
+    const response = await fetch(cloudinaryURL,
+      { method: 'POST', body: formData }
+    );
+    const file = await response.json();
+    this.setState({
+      image: file.secure_url,
+      // eslint-disable-next-line react/no-unused-state
+      largeImage: file.eager[0].secure_url
+    });
+  };
+
   render() {
+    const { title, price, description, image } = this.state;
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => {
@@ -46,49 +72,55 @@ class CreateItem extends Component {
               onSubmit={async e => {
                 e.preventDefault();
                 const res = await createItem();
-                console.log(res.data.createItem.id);
+                Router.push({
+                  pathname: '/item',
+                  query: {id: res.data.createItem.id}
+                });
               }}
             >
-              <fieldset>
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  id="title"
-                  value={this.state.title}
-                  onChange={this.handleChange}
-                />
+              <ErrorMessage errorObj={error} />
+              <fieldset disabled={loading}>
+                <label htmlFor="image">
+                  Image
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    onChange={this.uploadFile}
+                  />
+                  {image && <img width="200" src={image} alt="preview" />}
+                </label>
+                <label htmlFor="title">
+                  Title
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    value={title}
+                    onChange={this.handleChange}
+                  />
+                </label>
+                <label htmlFor="price">
+                  Price
+                  <input
+                    type="number"
+                    name="price"
+                    id="price"
+                    value={price}
+                    onChange={this.handleChange}
+                  />
+                </label>
+                <label htmlFor="description">
+                  Description
+                  <textarea
+                    name="description"
+                    id="description"
+                    value={description}
+                    onChange={this.handleChange}
+                  />
+                </label>
               </fieldset>
-              <fieldset>
-                <label htmlFor="price">Price</label>
-                <input
-                  type="number"
-                  name="price"
-                  id="price"
-                  value={this.state.price}
-                  onChange={this.handleChange}
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="description">Description</label>
-                <textarea
-                  name="description"
-                  id="description"
-                  value={this.state.description}
-                  onChange={this.handleChange}
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="image">Image</label>
-                <input
-                  type="text"
-                  name="image"
-                  id="image"
-                  value={this.state.image}
-                  onChange={this.handleChange}
-                />
-              </fieldset>
-              <button type="submit">Submit</button>
+              <button type="submit">Sav{loading?'ing':'e'}</button>
             </Form>
           );
         }}

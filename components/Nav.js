@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
@@ -5,7 +6,7 @@ import NavStyles from './styles/NavStyles';
 const Nav = () => (
   <NavStyles>   
     <Link href="/items">
-      <a>Items</a>
+      <a>Shop</a>
     </Link>
     <Link href="/sell">
       <a>Sell</a>

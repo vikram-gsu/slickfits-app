@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Header from './Header';
-import styled, {ThemeProvider, createGlobalStyle} from 'styled-components';
+import Meta from './Meta';
 
 const theme = {
   red: '#FF0000',
@@ -10,7 +11,7 @@ const theme = {
   offwhite: '#EDEDED',
   maxWidth: '1000px',
   bs: '0 12px 24px 0 rgba(0,0,0,0.09)'
-}
+};
 
 const StyledPage = styled.div`
   background: white;
@@ -50,18 +51,20 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page = (props) => (
-  <ThemeProvider theme={theme}>
-    <div>
-      <GlobalStyle />
-      <StyledPage>
-        <Header />
-        <Inner>
-          {props.children}
-        </Inner>
-      </StyledPage>
-    </div>
-  </ThemeProvider>
-)
+const Page = props => {
+  const { children } = props;
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        <GlobalStyle />
+        <StyledPage>
+          <Meta />
+          <Header />
+          <Inner>{children}</Inner>
+        </StyledPage>
+      </div>
+    </ThemeProvider>
+  );
+};
 
 export default Page;
