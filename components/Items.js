@@ -3,10 +3,15 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import Item from './Item';
+import Pagination from './Pagination';
+import { perPage } from '../config';
 
 const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
+  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+    items(
+      skip: $skip,
+      first: $first
+    ) {
       id
       title
       description
@@ -16,6 +21,7 @@ const ALL_ITEMS_QUERY = gql`
     }
   }
 `;
+
 const Center = styled.div`
   text-align: center;
 `;
@@ -29,14 +35,21 @@ const ItemsList = styled.div`
     grid-template-columns: 1fr;
   }
 `;
-const Items = () => {
+const Items = ({ page }) => {
   return (
     <Center>
-      <Query query={ALL_ITEMS_QUERY}>
+      <Pagination page={page} />
+      <Query
+        query={ALL_ITEMS_QUERY}
+        variables={{
+          skip: perPage * page - perPage
+        }}
+      >
         {({ data, loading, error }) => {
           if (loading) return <div>Fetching Items...</div>;
           if (error) return <div>{error.message}</div>;
-          if (data.items.length === 0) return <div>There are no items listed currently</div>;
+          if (data.items.length === 0)
+            return <div>There are no items listed currently</div>;
           return (
             <ItemsList>
               {data.items.map(item => (
@@ -46,9 +59,10 @@ const Items = () => {
           );
         }}
       </Query>
+      <Pagination page={page} />
     </Center>
   );
 };
 
 export default Items;
-export {ALL_ITEMS_QUERY};
+export { ALL_ITEMS_QUERY };

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SingleItem /> Errors with a not found item 1`] = `
+<p
+  data-test="graphql-error"
+>
+  <strong>
+    Oops!
+  </strong>
+  Network error: Error writing result to store for query:
+ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SINGLE_ITEM_QUERY"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"description"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"price"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"largeImage"},"arguments":[],"directives":[]}]}}]}}],"loc":{"start":0,"end":148}}
+Cannot read property 'item' of undefined
+</p>
+`;
+
+exports[`<SingleItem /> renders to a snapshot 1`] = `
+<h2>
+  Adidas shoes
+</h2>
+`;
+
+exports[`<SingleItem /> renders to a snapshot 2`] = `
+<img
+  alt="Adidas shoes"
+  src="large_adidas.jpg"
+/>
+`;
+
+exports[`<SingleItem /> renders to a snapshot 3`] = `
+<p>
+  Yellow shoes with three stripes!
+</p>
+`;

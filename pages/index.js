@@ -1,10 +1,12 @@
 import React from 'react';
 import Items from '../components/Items';
 
-const Home = () => (
-  <div>
-    <Items />
-  </div>
-);
+const Home = ({ query }) => {
+  return (
+    <div>
+      <Items page={parseFloat(query.page) || 1} />
+    </div>
+  );
+};
 
 export default Home;

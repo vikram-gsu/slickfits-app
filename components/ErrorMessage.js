@@ -38,7 +38,7 @@ const ErrorMessage = ({ errorObj }) => {
   return (
     <ErrorStyles>
       <p data-test="graphql-error">
-        <strong>Network Error</strong>
+        <strong>Oops!</strong>
         {errorObj.message.replace('GraphQL error: ', '')}
       </p>
     </ErrorStyles>

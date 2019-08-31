@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Head from 'next/head';
+import ErrorMessage from './ErrorMessage';
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -38,8 +39,9 @@ const SingleItem = ({ id }) => {
   return (
     <Query query={SINGLE_ITEM_QUERY} variables={{ id }}>
       {({ data, loading, error }) => {
-        if (error) return <div>Error while fetching the item</div>;
-        if (loading) return <div>Fetching Item...</div>;
+        if (error) return <ErrorMessage errorObj={error} />;
+        if (loading) return <div>Loading...</div>;
+        if (!data.item) return <p>No Item Found for {id}</p>;
         const { title, description, largeImage } = data.item;
         return (
           <StyledItem>
@@ -48,7 +50,7 @@ const SingleItem = ({ id }) => {
             </Head>
             <img src={largeImage} alt={title} />
             <div className="details">
-            <h1>{title}</h1>
+            <h2>{title}</h2>
             <p>{description}</p>
             </div>
           </StyledItem>
@@ -59,3 +61,4 @@ const SingleItem = ({ id }) => {
 };
 
 export default SingleItem;
+export {SINGLE_ITEM_QUERY};

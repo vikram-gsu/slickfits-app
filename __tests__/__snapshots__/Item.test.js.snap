@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Item /> renders and displays properly 1`] = `
+<ItemStyles__Item>
+  <img
+    alt="Adidas shoes"
+    src="adidas.jpg"
+  />
+  <Title>
+    <Link
+      href={
+        Object {
+          "pathname": "/item",
+          "query": Object {
+            "id": "12321jlk",
+          },
+        }
+      }
+      prefetch={true}
+    >
+      <a>
+        Adidas shoes
+      </a>
+    </Link>
+  </Title>
+  <PriceTag>
+    $34.50
+  </PriceTag>
+  <p>
+    Yellow shoes with three stripes!
+  </p>
+  <div
+    className="buttonList"
+  >
+    <Link
+      href={
+        Object {
+          "pathname": "/update",
+          "query": Object {
+            "id": "12321jlk",
+          },
+        }
+      }
+      prefetch={true}
+    >
+      <a>
+        Edit
+      </a>
+    </Link>
+    <a>
+      Add To Cart
+    </a>
+    <DeleteItem
+      id="12321jlk"
+    >
+      Delete This Item
+    </DeleteItem>
+  </div>
+</ItemStyles__Item>
+`;
